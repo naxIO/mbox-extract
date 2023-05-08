@@ -45,6 +45,13 @@ TkButton.new(root) do
   grid(row: 1, column: 2, padx: 15, pady: 15)
 end
 
+progress = Tk::Tile::Progressbar.new(root) do
+  mode 'indeterminate'
+  maximum 100
+  value 0
+  grid(row: 3, column: 1, padx: 15, pady: 15)
+end
+
 TkButton.new(root) do
   text 'Extract Attachments'
   command do
@@ -64,13 +71,6 @@ TkButton.new(root) do
     end
   end
   grid(row: 2, column: 1, padx: 15, pady: 15)
-end
-
-progress = Tk::Tile::Progressbar.new(root) do
-  mode 'indeterminate'
-  maximum 100
-  value 0
-  grid(row: 3, column: 1, padx: 15, pady: 15)
 end
 
 Tk.mainloop
