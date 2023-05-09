@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'tk'
 require 'tkextlib/tile'
 require_relative 'extract_attachments'
-
 
 def browse_file(entry)
   filepath = Tk.getOpenFile
@@ -13,7 +14,7 @@ def browse_folder(entry)
   entry.value = folderpath unless folderpath.empty?
 end
 
-root = TkRoot.new { title "MBOX Attachment Extractor" }
+root = TkRoot.new { title 'MBOX Attachment Extractor' }
 
 TkLabel.new(root) do
   text 'Input MBOX file:'
@@ -58,16 +59,18 @@ TkButton.new(root) do
     mbox_file = input_file.get
     output_dir = output_folder.get
 
-    unless mbox_file.empty? || output_dir.empty?
+    if mbox_file.empty? || output_dir.empty?
+      Tk.messageBox('type' => 'ok', 'icon' => 'error', 'title' => 'Error',
+                    'message' => 'Please provide both input file and output folder.')
+    else
       progress.start
       begin
         ExtractAttachments.extract_attachments(mbox_file, output_dir)
-        Tk.messageBox('type' => 'ok', 'icon' => 'info', 'title' => 'Success', 'message' => 'Attachments extracted successfully.')
+        Tk.messageBox('type' => 'ok', 'icon' => 'info', 'title' => 'Success',
+                      'message' => 'Attachments extracted successfully.')
       ensure
         progress.stop
       end
-    else
-      Tk.messageBox('type' => 'ok', 'icon' => 'error', 'title' => 'Error', 'message' => 'Please provide both input file and output folder.')
     end
   end
   grid(row: 2, column: 1, padx: 15, pady: 15)
